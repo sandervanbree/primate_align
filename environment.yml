@@ -1,0 +1,49 @@
+name: primate_align
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  # numerics
+  - numpy=1.26.*
+  - scipy=1.13.*
+  - pandas=2.2.*
+  - scikit-learn=1.4.*
+  - joblib=1.4.*
+  - tqdm=4.66.*
+  # I/O and HDF5 stack (kept in lockstep)
+  - hdf5=1.14.*
+  - h5py=3.10.*
+  - requests
+  - numexpr=2.10.*
+  - pytables=3.9.*
+  # neuro/imaging
+  - nilearn=0.10.*
+  - nibabel=5.1.*
+  # plotting & notebooks
+  - matplotlib=3.8.*
+  - seaborn=0.13.*
+  - plotly=5.*
+  - jupyter
+  - ipykernel
+  # image / ML extras
+  - scikit-image=0.22.*
+  - tensorly=0.8.*
+  - pillow
+  - opencv=4.*
+  - threadpoolctl=3.*
+  - statsmodels=0.14.*
+  # build
+  - cython>=3.0.0
+  - setuptools
+  - wheel
+  # config
+  - toml
+  - pip
+  - pip:
+      - pyrcca
+      - himalaya
+      - tqdm_joblib
+      - pycortex
+      - wordcloud
+      - matplotlib-venn

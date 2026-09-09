@@ -1,0 +1,66 @@
+[dataset]
+images_dir = "../../data/things/images"
+
+[general]
+output_dir = "../../data/dnn/features"
+flatten = false
+batch_size = 32
+center_crop = true
+file_format = "npy"
+
+[[model]]
+name = "alexnet"
+source = "torchvision"
+pretrained = true
+layers = ["features.1","features.4","features.7","features.9","features.11","avgpool","classifier.1","classifier.2","classifier.5","classifier.6"]
+
+[[model]]
+name = "resnet50"
+source = "torchvision"
+pretrained = true
+layers = ["maxpool","layer1.0","layer1.2","layer2.0","layer2.3","layer3.0","layer3.5","layer4.0","layer4.2","avgpool","fc"]
+
+[[model]]
+name = "vgg16"
+source = "torchvision"
+pretrained = true
+layers = ["features.3","features.8","features.11","features.15","features.22","features.29","avgpool","classifier.2","classifier.5","classifier.6"]
+
+[[model]]
+name = "clip"
+model_name = "clip"
+source = "custom"
+variant = "ViT-B/16"
+pretrained = true
+layers = [
+"visual.transformer.resblocks.0","visual.transformer.resblocks.2","visual.transformer.resblocks.4",
+"visual.transformer.resblocks.5","visual.transformer.resblocks.6","visual.transformer.resblocks.7",
+"visual.transformer.resblocks.8","visual.transformer.resblocks.9","visual.transformer.resblocks.10",
+"visual.transformer.resblocks.11"
+]
+
+[[model]]
+name = "clip_rn50"
+model_name = "clip"
+source = "custom"
+variant = "RN50"
+pretrained = true
+layers = [
+"visual.conv1","visual.layer1.0","visual.layer1.2","visual.layer2.0","visual.layer2.3",
+"visual.layer3.0","visual.layer3.5","visual.layer4.0","visual.layer4.2","visual.attnpool"
+]
+
+[[model]]
+name = "dinov3-vitb16"
+source = "custom"
+impl = "dinov3"
+pretrained = true
+layers = ["blocks.0","blocks.1","blocks.2","blocks.3","blocks.4","blocks.5","blocks.6","blocks.7","blocks.8","blocks.9","blocks.10","blocks.11","norm"]
+
+# Dinov2 via THINGSvision (SSL source)
+[[model]]
+name = "dinov2-vit-base-p14"
+source = "ssl"
+pretrained = true
+# Balanced coverage with a few intermediate blocks and final norm
+layers = ["blocks.0","blocks.1","blocks.2","blocks.3","blocks.4","blocks.5","blocks.6","blocks.7","blocks.8","blocks.9","blocks.10","blocks.11","norm"]

@@ -1,0 +1,184 @@
+[paths]
+# Input data root. Relative paths are resolved from the repository root.
+data_root = "data"
+
+# Output paths (relative to repo root)
+results_dir  = "results"
+fig_dir      = "figures"
+cache_file   = "results/cca_state.pkl"
+
+[analysis]
+monkey_ids = ["N", "F"]
+human_subjects = ["01", "02", "03"]
+roi_monkey = "it"
+roi_human = [
+    "lLOC", "rLOC", "lFFA", "rFFA",
+    "lPPA", "rPPA", "lEBA", "rEBA",
+    "LO1 (prf)", "LO2 (prf)"
+]
+# Conservative public default. Increase on an HPC system as appropriate.
+n_jobs = 4
+default_reliability = 0.0
+default_split = 0.0
+demean_groups = true # demean human fMRI based on run and session no.
+
+[hyperparameters]
+# Settings for CCA_families.py - final model fitting
+# Family-specific regularization values for the shared-width CCA fits
+[hyperparameters.cca_families]
+cross-species = { reg = 4.0 } # 10^4.0 = 1.00e+04
+human = { reg = 4.0 } # 10^4.0 = 1.00e+04
+monkey = { reg = 2.7 } # 10^2.7 = 5.18e+02
+
+# Settings for param_gridsearch.py - hyperparameter optimization
+[hyperparameters.gridsearch]
+n_components = 10
+k_folds_inner = 3
+k_folds_outer = 3
+n_reps = 1
+reg_start = 1 #log10
+reg_stop = 7 #log10
+reg_num = 15 #lin spacing
+
+# Settings for param_crossview.py - statistical robustness testing
+[hyperparameters.crossview]
+n_cc = 100
+n_folds = 5
+n_reps_empirical = 3  # Number of repetitions for empirical CCA (with true labels)
+n_reps_null = 1       # Number of repetitions for each permutation in null distribution
+n_perm = 200
+alpha = 0.05
+seed = 42
+perm_jobs = 6  # explicit permutation worker cap to avoid nested oversubscription
+
+[hyperparameters.eval_ridge_mcca]
+outer_folds = 5
+outer_repeats = 3
+inner_folds = 3
+seed = 42
+n_perm = 200
+fdr_alpha = 0.05
+
+[hyperparameters.ridge_cv]
+# Shared ridge CV profile across native-axis support, feature encoding,
+# variance partitioning, and DNN encoding analyses.
+outer_folds = 5
+outer_repeats = 3
+inner_folds = 3
+seed = 42
+pca_max_dim = 250
+
+[hyperparameters.residualized_decoding]
+# Early-DNN residualization control
+early_depth_threshold = 0.25
+cca_reg = 1.0
+pca_pre_dim = 250
+
+[hyperparameters.decoding]
+outer_folds = 5
+inner_folds = 3
+n_perm = 200
+seed = 42
+random_draws = 100
+random_pos_frac = 0.5
+
+[hyperparameters.category_asymm]
+n_perm = 1000
+animacy_perm = 1000
+n_boot = 1000
+seed = 42
+alpha = 0.05
+
+
+# Settings for inspect.py - visualization and inspection
+[hyperparameters.inspect]
+n_components_to_plot = 10
+n_images_radial_plot = 50
+
+# Settings for SRF analysis
+[hyperparameters.srf]
+n_folds = 3
+n_repeats = 5
+n_jobs = 4
+final_fit_jobs = 2
+use_fisher_z = true
+legacy_holdout = true
+observed_fraction = 0.30
+calibration_n_jobs = 4
+calibration_sampling_grid = [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95]
+calibration_n_bootstrap = 8
+calibration_max_eigenpairs = 100
+pin_cv_threads = false
+blas_threads_per_job = 1
+rho = 3.0
+max_outer = 30
+max_inner = 20
+tol = 1e-4
+init = "random_sqrt"
+seed = 42
+
+# Rank ranges for each family
+[hyperparameters.srf.rank_ranges]
+all = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+human = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+monkey = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+
+# Custom visualization ranks (optional override of CV best)
+[hyperparameters.srf.custom_ranks]
+
+[hyperparameters.viz]
+# Global viz controls used by viz_cca.py and SRF diagnostics
+top_k = 5            # number of components in top_features
+rsm_top_n = 200      # SRF RSM crop size
+ridge_pca_n = 250    # PCA components for CCA ridge view-wise models
+
+[hyperparameters.viz.cca]
+selected_components = { cross-species = [1,2,3,4], human = [1,2,3,4], monkey = [1,2,3,4] }
+
+[hyperparameters.viz.srf]
+# Defaults mirror current selections in SRF diagnostics
+selected_components = { all = [1,10,20,47], human = [13,27,28,33], monkey = [12,42,46,53] }
+
+[hyperparameters.modality]
+# species_modality.py bootstrap settings (stimulus bootstrap)
+n_boot = 1000
+seed = 42
+comp_crop = 32
+# Bootstrap workers. Increase on an HPC system as appropriate.
+n_jobs = 4
+verbose = 10
+
+[plotting]
+shared_color = "#81B7B3"
+human_color = "#7c5799"
+monkey_color = "#bda855"
+significant = "#961a1a"
+chance_color = "#000000"
+savefig_format = "pdf"
+# Colors for component visualization
+positive_color = "#A8393F"
+negative_color = "#366EA9"
+semantic_color = "#4a8f4f"
+
+# Small within-class differences, larger between-class differences
+visual_range = [0.9, 0.92]     # Very light gray (tight range)
+behavioral_range = [0.6, 0.62]  # Medium gray (tight range)
+semantic_range = [0.2, 0.22]    # Dark gray (tight range)
+# Math cognition feature colors (royal blues - bold, professional)
+symbol_color = "#2874A6"        # Royal blue
+icon_color = "#5499C7"          # Medium blue
+ensemble_color = "#85C1E2"    # Light blue
+model_arch_spacing = 0.0
+
+[plotting.model_arch]
+cnn = { models = ["alexnet","vgg16","resnet50","clip_rn50"], cmap = "inferno", tmin = 0.25, tmax = 0.45}
+transformer = { models = ["dinov2-vit-base-p14","dinov3-vitb16","clip"], cmap = "copper", tmin = 0.5, tmax = 0.75}
+
+[plotting.model_hatch]
+clip = "///"
+clip_rn50 = "///"
+
+[hyperparameters.ridge]
+reg_start = -2   # log10
+reg_stop  =  6   # log10
+reg_num   = 11   # lin spacing in log space

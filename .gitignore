@@ -1,0 +1,50 @@
+__pycache__/
+*.pyc
+*.pyo
+*.so
+*.egg-info/
+.DS_Store
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.env
+.env.*
+.idea/
+.vscode/
+*.log
+*.swp
+*~
+
+# Local collaboration and manuscript files
+.codex/
+.claude/
+AGENTS.md
+CLAUDE.md
+manuscript/
+
+# Downloaded data. Keep only the two small public analysis tables.
+data/*
+!data/annotations.csv
+!data/features/
+data/features/*
+!data/features/vis_props/
+data/features/vis_props/*
+!data/features/vis_props/vis_props.tsv
+
+# Generated results and figures
+results/
+figures/
+
+# DNN outputs
+analysis/dnn/features/
+
+# Local experiment workspaces and oversized solver snapshots
+sandbox/
+
+# Cython build artifacts for PySRF
+functions/srf/_bsum.c
+functions/srf/build/
+build/
+dist/
