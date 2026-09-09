@@ -13,6 +13,29 @@ python functions/srf/build_extension.py
 The extension build requires a C compiler. Settings and worker counts are in
 `config/config.toml`; adjust workers to the available CPUs and memory.
 
+Dependencies are listed in `environment.yml`. The demo was tested on Debian 12
+(Linux x86_64), Python 3.11.14, NumPy 1.26.4, SciPy 1.13.1, pandas 2.2.3,
+scikit-learn 1.4.2, joblib 1.4.2 and Pyrcca 0.2. It uses one CPU worker and
+requires no GPU or other non-standard hardware. Full-data analyses require
+more memory; requirements depend on the analysis and worker count.
+Allow approximately 10–20 minutes for installation on a desktop with Conda
+already installed (estimate; download speed and dependency solving vary).
+This excludes dataset downloads.
+
+## Demo
+
+After setup, run:
+
+```bash
+python demo.py
+```
+
+This generates 120 simulated observations in five views and runs three-fold CCA.
+Expected output is three held-out correlations close to 1 (approximately
+0.998, 0.997 and 0.998). Simulated inputs and a CSV of correlations are saved
+under `results/demo/`. The test run took approximately 1 second and 120 MB RAM;
+allow a few seconds on a desktop. No data download is needed.
+
 ## Data
 
 Run `fetch/download_data.ipynb` to download and prepare the inputs. For the
