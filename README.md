@@ -22,19 +22,10 @@ Allow approximately 10–20 minutes for installation on a desktop with Conda
 already installed (estimate; download speed and dependency solving vary).
 This excludes dataset downloads.
 
-## Demo
-
-After setup, run:
-
-```bash
-python demo.py
-```
-
-This generates 120 simulated observations in five views and runs three-fold CCA.
-Expected output is three held-out correlations close to 1 (approximately
-0.998, 0.997 and 0.998). Simulated inputs and a CSV of correlations are saved
-under `results/demo/`. The test run took approximately 1 second and 120 MB RAM;
-allow a few seconds on a desktop. No data download is needed.
+For a small simulated-data check, run `python demo.py` (about 1 second and
+120 MB RAM; allow a few seconds on a desktop). It saves inputs and a correlation
+CSV to `results/demo/`, with expected correlations of approximately
+0.998, 0.997 and 0.998. No data download is needed.
 
 ## Data
 
